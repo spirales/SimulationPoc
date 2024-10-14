@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{839DF4BF-957F-4D6D-A413-414E978E9F22}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationServer.Api", "src\Simulation.Api\SimulationServer.Api.csproj", "{F30F6AFD-CDA2-45C4-BCE4-7D15D496E3B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationServer.Business", "src\Simulation.Business\SimulationServer.Business.csproj", "{4CF4409D-70EE-42A8-B7F5-89861C41C3A8}"
@@ -13,6 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActorSensor.DataGenerator",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActorSensor.ReceiverDisplay", "src\ActorSensor.ReceiverDisplay\ActorSensor.ReceiverDisplay.csproj", "{C4B5BCB6-2C4C-4750-A37E-2462D0975932}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2594B861-D106-4572-A36A-0C6578D28164}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulation.Tests", "tests\Simulation.Tests\Simulation.Tests.csproj", "{CBC36134-3C0D-4198-8C51-8B6709E30EFB}"
+EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,8 +46,15 @@ Global
 		{C4B5BCB6-2C4C-4750-A37E-2462D0975932}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4B5BCB6-2C4C-4750-A37E-2462D0975932}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4B5BCB6-2C4C-4750-A37E-2462D0975932}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBC36134-3C0D-4198-8C51-8B6709E30EFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBC36134-3C0D-4198-8C51-8B6709E30EFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBC36134-3C0D-4198-8C51-8B6709E30EFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBC36134-3C0D-4198-8C51-8B6709E30EFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CBC36134-3C0D-4198-8C51-8B6709E30EFB} = {2594B861-D106-4572-A36A-0C6578D28164}
 	EndGlobalSection
 EndGlobal

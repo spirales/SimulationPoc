@@ -4,13 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wpf="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
+        xmlns:vm="clr-namespace:ActorSensor.ReceiverDisplay"  
         mc:Ignorable="d"
-        Title="GPS Position Receiver" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800">
+    
+ 
+
     <Grid>
-        <wpf:GMapControl x:Name="MapControl" 
-                         Margin="10" 
-                         Zoom="12"
-                         VerticalAlignment="Stretch"
-                         HorizontalAlignment="Stretch"/>
+          <wpf:GMapControl x:Name="MapControl"
+                           Zoom="{Binding MapZoom, Mode=TwoWay}"
+                           VerticalAlignment="Stretch"
+                           HorizontalAlignment="Stretch"
+                           />
+                          
+        <!-- Add a button to toggle map updates -->
+        <Button Content="Pause/Resume Map Updates" Command="{Binding ToggleMapUpdateCommand}" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

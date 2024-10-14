@@ -17,7 +17,7 @@ public interface IConsumerRepository : IDisposable
 public interface IProducerRepository
 {
 
-    public Task Push(StackRow item, CancellationToken cancellationToken);
+    public Task<bool> Push(StackRow item, CancellationToken cancellationToken);
     public Task<int> GetSize();
 
 }
@@ -38,26 +38,20 @@ public sealed class ProducerRepository : IProducerRepository
 
 
 
-    public async Task Push(StackRow item, CancellationToken cancellationToken)
+    public async Task<bool> Push(StackRow item, CancellationToken cancellationToken)
     {
         try
         {
-            _logger.LogInformation("Start Push task at: {0}", DateTime.UtcNow.ToString("O"));
             using var context = await _contextFactory.CreateDbContextAsync();
             context.Stack.Add(item);
-            _logger.LogInformation("Push started, token state: {0}", cancellationToken.IsCancellationRequested ? "Canceled" : "Active");
-            await context.SaveChangesAsync(cancellationToken);
+            return await context.SaveChangesAsync(cancellationToken) != 0;
         }
         catch (Exception e)
         {
-            _logger.LogInformation(e.Message + " " + DateTime.UtcNow.ToString("O"));
-            // _logger.LogError(e, "An error occurred while pushing the data");
-            throw;
+            _logger.LogError(e, "An error occurred while pushing the data");
+            return false;
         }
-        finally
-        {
-            _logger.LogInformation("End Push task at: {0}", DateTime.UtcNow.ToString("O"));
-        }
+
     }
 
 }

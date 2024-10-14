@@ -25,7 +25,11 @@ builder.Services.AddPooledDbContextFactory<SimulationDbContext>(options =>
 builder.Services.AddSingleton<ISensorDataRepository, SensorDataRepository>();
 builder.Services.AddSingleton<IProducerRepository, ProducerRepository>();
 builder.Services.AddSingleton<ISensorDataPublisher>(sr=>new SensorDataPublisher(broadcasterUrl!,sr.GetRequiredService<ILogger<SensorDataPublisher>>()));
-builder.Services.AddSingleton<IRealTimeDataProcessor, RealTimeDataProcessor>();
+builder.Services.AddSingleton<IRealTimeDataProcessor>(sr=>new RealTimeDataProcessor(
+    sr.GetRequiredService<IProducerRepository>(),
+    sr.GetRequiredService<ISensorDataPublisher>(),
+    sr.GetRequiredService<ILogger<RealTimeDataProcessor>>(),
+    TimeSpan.FromMilliseconds(200)));
 builder.Services.AddSingleton<IConsumerRepositoryFactory>(
     new ConsumerRepositoryFactory(connectionString!)
     );

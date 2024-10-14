@@ -16,19 +16,20 @@ public class RealTimeDataProcessor : IRealTimeDataProcessor
 
     private readonly ILogger<RealTimeDataProcessor> _logger;
 
-    private readonly TimeSpan expirationTimeout = TimeSpan.FromMilliseconds(200);
+    private readonly TimeSpan _expirationTimeout;
     public RealTimeDataProcessor(IProducerRepository producerRepository,
-    ISensorDataPublisher sensorDataPublisher, ILogger<RealTimeDataProcessor> logger)
+    ISensorDataPublisher sensorDataPublisher, ILogger<RealTimeDataProcessor> logger,TimeSpan expirationTimeout)
     {
         _producerRepository = producerRepository;
         _sensorDataPublisher = sensorDataPublisher;
         _logger = logger;
+        _expirationTimeout = expirationTimeout;
     }
 
     public async Task<bool> Process(SensorData item)
     {
         using var cts = new CancellationTokenSource();
-        cts.CancelAfter(expirationTimeout);
+        cts.CancelAfter(_expirationTimeout);
         try
         {
             var token = cts.Token;
@@ -37,13 +38,13 @@ public class RealTimeDataProcessor : IRealTimeDataProcessor
                 _sensorDataPublisher.Publish(item, token)
             );
 
-            var completedTask = await Task.WhenAny(tasks, Task.Delay(expirationTimeout, token));
+            var completedTask = await Task.WhenAny(tasks, Task.Delay(_expirationTimeout, token));
 
             // If all tasks completed successfully before the timeout
             if (completedTask == tasks)
             {
-                await tasks; // Ensure to observe any exceptions from the tasks
-                return true;
+                var results = await tasks;
+                return results[0] && results[1];
             }
 
             // If timeout occurred, cancel tasks and return false
