@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "FTIqRhSov8fZbQ5LZf9/dm8kbId+dAfRhhYyCkEUtRQ=",
+  "Source": "SimulationServer.Hub.Broadcast",
+  "BasePath": "_content/SimulationServer.Hub.Broadcast",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
