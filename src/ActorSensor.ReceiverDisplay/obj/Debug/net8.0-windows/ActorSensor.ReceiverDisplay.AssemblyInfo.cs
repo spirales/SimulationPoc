@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ActorSensor.ReceiverDisplay")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5540fc66185b8b44eec74edc861162a26bc697a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ActorSensor.ReceiverDisplay")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ActorSensor.ReceiverDisplay")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
