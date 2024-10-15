@@ -1,0 +1,47 @@
+
+I started from two main ideas:
+
+Applications must be resilient and scale horizontally.
+The system is real-time, so the closer the information is to the present moment, the more valuable it is.
+Consequently, I made a few decisions:
+
+Upon receiving data, they will be handled in parallel:
+
+	1.1 The data will be stored "raw" in a buffer, which could most likely be a stack/queue: RabbitMQ, Kafka, each with its own advantages and disadvantages. 
+	   Considering that data closer to the present time is more valuable, I believe (though it's open to discussion) that a LIFO processing system is more suitable. 
+	   In the Proof of Concept (PoC) I've developed, I store sensor data in a table acting as a stack and process it accordingly. 
+	   From the buffer-type storage system (the table in the PoC), I send the data to another "historical" storage system, which should ideally be partitioned by time.
+
+	1.2 The data is sent to a SignalR Hub to be distributed in real-time to clients, either desktop or web GIS applications.
+
+To ensure system resilience, I made the following decisions (open to discussion):
+
+	2.1 I limit the number of calls a client can make to the server within a certain time frame(throttling).
+    2.2 If the two parallel operations mentioned in point 1 exceed a certain time limit, I stop the processing regardless of whether they are completed or not. This frees up resources for other requests and makes the processing more quantifiable, so to speak.
+
+From a DevOps perspective, the server application should be deployed in a cloud environment that can scale it horizontally by starting multiple instances based on the system load.
+
+
+
+
+Am pornit de la doua idei principale.
+1. Aplicatiile trebuie sa fie reziliente si sa scaleze orizontal
+2. Sistemul este realtime, deci cu cat informatia este mai aproape de timul prezent cu atat este mai valoroasa
+
+In consectinta am luat cateva decizii, 
+1. La primire datele vor fi in paralel 
+ 
+ 1.1 stocate "brut" intr-un "buffer", care poate sa fie cel mai probabil o stiva/coada: rabbitmq, kafka fiecare cu avantaje si dezavantaje.
+	  Avand in vedere ca datele mai apropiate de timpul prezent sunt mai valoroase, intr-un eventual proces de luare a deciziilor, consider(discutabil)
+	  ca un sistem de procesare LIFO e mai potrivit. In ProofOfConcept-ul pe care l-am dezvoltat stochez datele de la senzori intr-o  tabela pe post de stiva si le procesez in consecinta.
+	  Din sistemul de stocare tip buffer (tabela in cazul POC) trimit datele spre alt sistem de stocare de tip "istorizare", care, optim ar trebui partitionat in functie de timp.
+ 	  
+  1.2 trimise intr-un SignalR "Hub" pentru a putea fi distribuie realtime catre clienti, aplicatii GIS desktop sau Web
+  
+2. Ca sistemul sa fie rezilient, am decis(discutabil) 
+   2.1 Sa limitez numarul de apeluri catre server de catre un client intr-un anumit interval de timp.
+   2.2 Daca cele doua operatii paralele de la punctul 1. depasesc un anumit interval de timp ies din procesare indiferent daca s-au terminat sau nu.
+       Eliberez resurse pentru alte cereri si fac procesarea mai cuantificabila, sa zicem
+
+
+Din punct de vedere DevOps aplicatia server ar trebui instalata intr-un cloud care sa poate sa o scaleze orizontal prin startarea mai multor instante in functie de incarcarea sistemului.
