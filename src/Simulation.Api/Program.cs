@@ -25,6 +25,7 @@ builder.Services.AddPooledDbContextFactory<SimulationDbContext>(options =>
 builder.Services.AddSingleton<ISensorDataRepository, SensorDataRepository>();
 builder.Services.AddSingleton<IProducerRepository, ProducerRepository>();
 builder.Services.AddSingleton<ISensorDataPublisher>(sr=>new SensorDataPublisher(broadcasterUrl!,sr.GetRequiredService<ILogger<SensorDataPublisher>>()));
+builder.Services.AddSingleton<IDataValidation,DataValidation>();
 builder.Services.AddSingleton<IRealTimeDataProcessor>(sr=>new RealTimeDataProcessor(
     sr.GetRequiredService<IProducerRepository>(),
     sr.GetRequiredService<ISensorDataPublisher>(),
@@ -58,8 +59,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 var sensorDataProcessor = app.Services.GetRequiredService<IRealTimeDataProcessor>();
+var dataValidation=app.Services.GetRequiredService<IDataValidation>();
 app.MapPost("/upload/{actorId:guid}",async (Guid actorId, SensorData data) =>
 {
+    var validationResult = dataValidation.Validate(data);
+    if (validationResult.IsSuccess==false)
+    {
+        return Results.BadRequest(validationResult.Error);
+    }
     await sensorDataProcessor.Process(data);
     return Results.Ok();
 })
@@ -67,3 +74,4 @@ app.MapPost("/upload/{actorId:guid}",async (Guid actorId, SensorData data) =>
 .WithOpenApi();
 app.Run();
 
+public partial class Program { }

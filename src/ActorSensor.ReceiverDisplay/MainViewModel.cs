@@ -87,8 +87,8 @@ public class MainViewModel : INotifyPropertyChanged
             // Create a new marker for the actor
             var ellipse = new System.Windows.Shapes.Ellipse
             {
-                Width = 10,
-                Height = 10,
+                Width = 20,
+                Height = 20,
                 Stroke = System.Windows.Media.Brushes.Red,
                 StrokeThickness = 1.5,
                 Fill = System.Windows.Media.Brushes.Red

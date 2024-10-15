@@ -31,10 +31,10 @@ public class ConsumerBusiness : IConsumerBusiness
     public async Task<bool> Consume()
     {
 
-        using var consumer = _consumerFactory.Create();
+        using var consumerRepository = _consumerFactory.Create();
         try
         {
-            var items = await consumer.Pop(_batchSize);
+            var items = await consumerRepository.Pop(_batchSize);
 
             if (items.Count == 0) return false;
 
@@ -46,17 +46,17 @@ public class ConsumerBusiness : IConsumerBusiness
 
             if (result)
             {
-                await consumer.Commit();
+                await consumerRepository.Commit();
             }
             else
             {
-                await consumer.Rollback();
+                await consumerRepository.Rollback();
             }
             return result;
         }
         catch (Exception ex)
         {
-            await consumer.Rollback();
+            await consumerRepository.Rollback();
             _logger.LogError(ex, "Error consuming data");
             return false;
         }
