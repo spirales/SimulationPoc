@@ -14,7 +14,7 @@ Upon receiving data, they will be handled in parallel:
 
 	1.2 The data is sent to a SignalR Hub to be distributed in real-time to clients, either desktop or web GIS applications.
 
-To ensure system resilience, I made the following decisions (open to discussion):
+To ensure system resilience, I made the following design decisions (open to discussion):
 
 	2.1 I limit the number of calls a client can make to the server within a certain time frame(throttling).
     2.2 If the two parallel operations mentioned in point 1 exceed a certain time limit, I stop the processing regardless of whether they are completed or not. This frees up resources for other requests and makes the processing more quantifiable, so to speak.
@@ -28,10 +28,10 @@ Am pornit de la doua idei principale.
 1. Aplicatiile trebuie sa fie reziliente si sa scaleze orizontal
 2. Sistemul este realtime, deci cu cat informatia este mai aproape de timul prezent cu atat este mai valoroasa
 
-In consectinta am luat cateva decizii, 
+In consectinta am luat cateva decizii de design, 
 1. La primire datele vor fi in paralel 
  
- 1.1 stocate "brut" intr-un "buffer", care poate sa fie cel mai probabil o stiva/coada: rabbitmq, kafka fiecare cu avantaje si dezavantaje.
+ 1.1 stocate "brut" intr-un "buffer", care poate sa fie cel mai probabil o stiva/coada: rabbitmq, kafka sau direct in memorie, fiecare cu avantaje si dezavantaje.
 	  Avand in vedere ca datele mai apropiate de timpul prezent sunt mai valoroase, intr-un eventual proces de luare a deciziilor, consider(discutabil)
 	  ca un sistem de procesare LIFO e mai potrivit. In ProofOfConcept-ul pe care l-am dezvoltat stochez datele de la senzori intr-o  tabela pe post de stiva si le procesez in consecinta.
 	  Din sistemul de stocare tip buffer (tabela in cazul POC) trimit datele spre alt sistem de stocare de tip "istorizare", care, optim ar trebui partitionat in functie de timp.
