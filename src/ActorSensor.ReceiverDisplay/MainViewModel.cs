@@ -29,7 +29,7 @@ public class MainViewModel : INotifyPropertyChanged
     {
         this.MapControl = MapControl;
         ToggleMapUpdateCommand = new RelayCommand(ToggleMapUpdate);
-         InitializeSignalR();
+        InitializeSignalR();
     }
 
     private async void InitializeSignalR()
@@ -91,7 +91,7 @@ public class MainViewModel : INotifyPropertyChanged
                 Height = 20,
                 Stroke = System.Windows.Media.Brushes.Red,
                 StrokeThickness = 1.5,
-                Fill = System.Windows.Media.Brushes.Red
+                Fill = new System.Windows.Media.SolidColorBrush(GetRandomColor())
             };
 
             // Set the tooltip for the marker shape
@@ -132,5 +132,14 @@ public class MainViewModel : INotifyPropertyChanged
     protected virtual void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private System.Windows.Media.Color GetRandomColor()
+    {
+        Random random = new Random();
+        return System.Windows.Media.Color.FromRgb(
+            (byte)random.Next(256),
+            (byte)random.Next(256),
+            (byte)random.Next(256));
     }
 }
